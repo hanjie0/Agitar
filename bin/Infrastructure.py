@@ -21,32 +21,25 @@ parser.add_argument('-c', '--classpathFile', nargs='?', type=str, dest="classpat
 args = parser.parse_args()
 
 classpathFile=args.classpathFile
-if(not os.path.exists(classpathFile):
+if(not os.path.exists(classpathFile)):
 	print("classpathFile unavailable" + classpathFile )
 	exit()
 
-envVars=['JAVA_HOME', 'PROJECT_PATH', 'JACOCO_PATH', 'ANDROID_JAR', 'TOOLS_JAR','ECLIPSE_HOME', 'AGITAR_HOME'];
-for var in envVars:
-	value=os.getenv(var)
-	if not value or value == "":
-		print("Warning: " + var + " is missing\n")
-	else: 
-		if not os.path.exists(value):
-			print("Error: the destination of environment variable " + var +" does not exist\n")
-	conf['envVariables'][var]=value
+fileContent=""
+with open(classpathFile, 'r') as f:
+	fileContent=f.read()
+	f.close()
+fileLines=[]
+fileLines=fileContent.split('\n')
 
-writeConfig(conf, "..\ini\currentConf.ini")
-	
-for var in ('EXLIBRARY', 'JUNITPATH'):
-	print("Checking " + var)
-	value=os.getenv(var)
-	if not value or value == "":
-		print("Warning: " + var + " is missing\n")
-
-
-	
-	
-
-	
-
-	
+srcStructure={'xx':'yy'}
+for i in fileLines:
+	if i.strip()!='':
+		t= i.replace(r'com.siemens.hc.poc.isf.', '').split('.')
+		if srcStructure.has_key('.'.join(t[0:-1])):		
+			pass
+			#srcStructure['.'.join(t[0:-1])].append(t[-1])
+		else:
+			pass
+			#srcStructure['.'.join(t[0:-1])].append(t[-1])=[]
+pprint(packageList)	
